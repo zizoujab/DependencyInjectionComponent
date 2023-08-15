@@ -1,0 +1,14 @@
+parameters:
+  weather.days: 3
+  weather.temperature_unit: 'celsius'
+
+services:
+  Symfony\Contracts\HttpClient\HttpClient:
+    factory : [Symfony\Component\HttpClient\HttpClient, create]
+  App\Services\HttpService:
+    class: App\Services\HttpService
+    arguments: ['@Symfony\Contracts\HttpClient\HttpClient']
+
+  App\Services\WeatherService:
+    class: App\Services\WeatherService
+    arguments: ['@App\Services\HttpService', '%weather.days%', '%weather.temperature_unit%']
